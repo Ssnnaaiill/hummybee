@@ -6,9 +6,7 @@ import "shards-ui/dist/css/shards.min.css"
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App />,
   document.getElementById("root")
 );
 
