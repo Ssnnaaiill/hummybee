@@ -1,28 +1,37 @@
 import React, { Component } from "react";
-import { FormCheckbox, FormRadio } from "shards-react";
+import { FormCheckbox, FormRadio, FormInput } from "shards-react";
 
 class Filter extends Component {
   constructor(props) {
     super(props);
 
-    this.handleBrandChange = this.handleBrandChange.bind(this);
+    this.changeBrand = this.changeBrand.bind(this);
     this.changeSearchOption = this.changeSearchOption.bind(this);
+    this.changeSearchString = this.changeSearchString.bind(this);
+
     this.state = {
       kumyoung: false,
       tj: false,
-      searchOption: null
+      searchOption: null,
+      searchString: ""
     };
   }
 
-  handleBrandChange(e, fruit) {
+  changeBrand(e, brand) {
     const newState = {};
-    newState[fruit] = !this.state[fruit];
+    newState[brand] = !this.state[brand];
     this.setState({ ...this.state, ...newState });
   }
 
   changeSearchOption(option) {
     this.setState({
       searchOption: option
+    });
+  }
+
+  changeSearchString(e) {
+    this.setState({
+      searchString: e.target.value
     });
   }
 
@@ -33,14 +42,14 @@ class Filter extends Component {
         <FormCheckbox
           inline
           checked={this.state.kumyoung}
-          onChange={e => this.handleBrandChange(e, "kumyoung")}
+          onChange={e => this.changeBrand(e, "kumyoung")}
         >
           금영
         </FormCheckbox>
         <FormCheckbox
           inline
           checked={this.state.tj}
-          onChange={e => this.handleBrandChange(e, "tj")}
+          onChange={e => this.changeBrand(e, "tj")}
         >
           태진
         </FormCheckbox>
@@ -89,7 +98,9 @@ class Filter extends Component {
           }}>
           작사가 이름으로 검색
         </FormRadio>
-      </div>
+        <FormInput id="searchString" onChange={e => this.changeSearchString(e)} />
+        <pre>{JSON.stringify(this.state)}</pre>
+      </div >
     );
   }
 }
