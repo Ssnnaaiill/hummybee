@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { FormCheckbox, FormRadio, FormInput } from "shards-react";
+import { FormRadio, FormInput, InputGroup, InputGroupAddon, Button } from "shards-react";
+import SongList from "./SongList";
 
 class Filter extends Component {
   constructor(props) {
@@ -7,26 +8,26 @@ class Filter extends Component {
 
     this.changeBrand = this.changeBrand.bind(this);
     this.changeSearchOption = this.changeSearchOption.bind(this);
+    this.submitSearchString = this.submitSearchString.bind(this);
     this.changeSearchString = this.changeSearchString.bind(this);
 
     this.state = {
-      kumyoung: false,
-      tj: false,
+      brand: null,
       searchOption: null,
       searchString: ""
     };
   }
 
-  changeBrand(e, brand) {
-    const newState = {};
-    newState[brand] = !this.state[brand];
-    this.setState({ ...this.state, ...newState });
+  changeBrand(brand) {
+    this.setState({ brand });
   }
 
-  changeSearchOption(option) {
-    this.setState({
-      searchOption: option
-    });
+  changeSearchOption(searchOption) {
+    this.setState({ searchOption });
+  }
+
+  submitSearchString(e) {
+    e.preventDefault();
   }
 
   changeSearchString(e) {
@@ -36,27 +37,50 @@ class Filter extends Component {
   }
 
   render() {
+    const { brand, searchOption, searchString } = this.state;
+
     return (
       <div>
         <p>브랜드 선택</p>
-        <FormCheckbox
+        <FormRadio
           inline
-          checked={this.state.kumyoung}
-          onChange={e => this.changeBrand(e, "kumyoung")}
+          checked={brand === "kumyoung"}
+          onChange={() => { this.changeBrand("kumyoung") }}
         >
           금영
-        </FormCheckbox>
-        <FormCheckbox
+        </FormRadio>
+        <FormRadio
           inline
-          checked={this.state.tj}
-          onChange={e => this.changeBrand(e, "tj")}
+          checked={brand === "tj"}
+          onChange={() => { this.changeBrand("tj") }}
         >
           태진
-        </FormCheckbox>
+        </FormRadio>
+        <FormRadio
+          inline
+          checked={brand === "dam"}
+          onChange={() => { this.changeBrand("dam") }}
+        >
+          DAM
+        </FormRadio>
+        <FormRadio
+          inline
+          checked={brand === "joysound"}
+          onChange={() => { this.changeBrand("joysound") }}
+        >
+          JOYSOUND
+        </FormRadio>
+        <FormRadio
+          inline
+          checked={brand === "uga"}
+          onChange={() => { this.changeBrand("uga") }}
+        >
+          UGA
+        </FormRadio>
         <p>검색 옵션</p>
         <FormRadio
           inline
-          checked={this.state.changeSearchOption === "no"}
+          checked={searchOption === "no"}
           onChange={() => {
             this.changeSearchOption("no");
           }}
@@ -65,16 +89,16 @@ class Filter extends Component {
         </FormRadio>
         <FormRadio
           inline
-          checked={this.state.searchOption === "title"}
+          checked={searchOption === "song"}
           onChange={() => {
-            this.changeSearchOption("title");
+            this.changeSearchOption("song");
           }}
         >
           노래 제목으로 검색
         </FormRadio>
         <FormRadio
           inline
-          checked={this.state.searchOption === "singer"}
+          checked={searchOption === "singer"}
           onChange={() => {
             this.changeSearchOption("singer");
           }}
@@ -83,7 +107,7 @@ class Filter extends Component {
         </FormRadio>
         <FormRadio
           inline
-          checked={this.state.searchOption === "composer"}
+          checked={searchOption === "composer"}
           onChange={() => {
             this.changeSearchOption("composer");
           }}
@@ -92,15 +116,28 @@ class Filter extends Component {
         </FormRadio>
         <FormRadio
           inline
-          checked={this.state.searchOption === "lyricist"}
+          checked={searchOption === "lyricist"}
           onChange={() => {
             this.changeSearchOption("lyricist");
           }}>
           작사가 이름으로 검색
         </FormRadio>
-        <FormInput id="searchString" onChange={e => this.changeSearchString(e)} />
-        <pre>{JSON.stringify(this.state)}</pre>
-      </div >
+        <InputGroup onSubmit={this.submitSearchString}>
+          <FormInput
+            placeholder="username"
+            disabled={searchOption === null || brand === null}
+            onChange={e => this.changeSearchString(e)}
+          />
+          <InputGroupAddon type="append">
+            <Button theme="secondary" type="submit">Check</Button>
+          </InputGroupAddon>
+        </InputGroup>
+        <SongList
+          brand={brand}
+          searchOption={searchOption}
+          searchString={searchString}
+        />
+      </div>
     );
   }
 }
