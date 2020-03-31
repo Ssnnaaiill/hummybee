@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import Header from "./components/Header";
-import Filter from "./components/Filter";
-import Footer from "./components/Footer";
-import SongList from "./components/SongList";
+import { Header, Filter, Footer } from "./components"
 import { Container, Row, Col } from "shards-react";
 
 class App extends Component {
@@ -12,11 +9,10 @@ class App extends Component {
         <Header />
         <Container>
           <Row>
-            <Col sm={{ size: 8, order: 2, offset: 2 }}>
+            <Col md={{ size: 10, order: 2, offset: 1 }}>
               <Filter />
             </Col>
           </Row>
-          <SongList />
         </Container>
         <Footer />
       </div>
