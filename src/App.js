@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Header, Filter, Footer } from "./components"
+import { Header, Filter } from "./components"
 import { Container, Row, Col } from "shards-react";
 
 class App extends Component {
@@ -14,7 +14,6 @@ class App extends Component {
             </Col>
           </Row>
         </Container>
-        <Footer />
       </div>
     );
   }
